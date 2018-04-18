@@ -1,0 +1,20 @@
+#- file:  modules/role/manifests/app_svr.pp
+#- Class: role::app_svr
+#
+# Class to define an app server role
+#
+class role::app_svr {
+
+ include profile::base
+ include profile::secure
+ include profile::monitoring
+ include profile::app
+ include profile::proxy   # Not installing nginx so commenting out
+ include profile::firewalls
+
+if $analytical == 'elk' { 
+ include profile::logstash_agent
+ } else {
+ include profile::universalforwarder
+}
+}
